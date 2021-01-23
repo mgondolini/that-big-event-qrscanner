@@ -1,1 +1,1 @@
-# big-event-scanner
+# ThatBigEvent QRcode scanner
