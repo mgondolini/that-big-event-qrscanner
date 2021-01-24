@@ -62,7 +62,7 @@ rules:
   space-unary-ops: [2, {words: true, nonwords: false}]
   #spaced-line-comment: [2, always]
   wrap-regex: 2
-  linebreak-style: [2, unix]
+  linebreak-style: 0
   semi: [2, always]
 
   # ECMAScript 6
