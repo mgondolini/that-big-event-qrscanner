@@ -31,7 +31,8 @@ require('./model/userModel');
 global.appRoot = path.resolve(__dirname);
 
 // Routes
-require('./routes/userRoutes');
+const router = require('./routes/userRoutes');
+app.use('/routes/userRoutes', router);
 
 app.use((req, res) => {
   res.status(404).send({ url: `${req.originalUrl} not found` });
