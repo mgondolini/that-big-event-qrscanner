@@ -3,18 +3,20 @@ const userService = require('../services/userService');
 
 const router = new express.Router();
 console.log('routes');
+
 /**
  * Logs user into the system
  */
 router.post('/login', async (req, res, next) => {
-  console.log('try to post login');
+  //dati veri di prova
   const options = {
-    email: req.query['email'],
-    password: req.query['password']
+    email: 'annalisa.rossi@email.com',
+    password: 'qweasd123'
   };
 
+  console.log(`routes options: \t${options.email}`); //DEBUG
+
   try {
-    console.log('try to post login2');
     const result = await userService.loginUser(options);
     res.status(result.status || 200).send(result.data);
   } catch (err) {

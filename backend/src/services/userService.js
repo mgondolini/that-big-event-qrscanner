@@ -10,24 +10,47 @@ console.log('user service');
  * @return {Promise}
  */
 exports.loginUser = async (options) => {
+  //al momento non servono
   const query = {email:  options.email , password: options.password};
+  console.log(`LOGIN email: ${query.email}`);
+  
+  const response = {
+    status: 200,
+    data: ''
+  };
 
   console.log('loginuser');
-  await User.findOne(query)
+  console.log(User);
+
+  //prova a trovare tutti i doc nel db
+
+  User.find()
     .exec()
-    .then((user) => {
-      if (user == null) {
-        // res.status(400).send({ description: 'user_not_found' });
-        global.log('User not found'); // DEBUG
-      } else {
-        // res.status(200).json(user);
-        global.log(`Found user ->${user.email}`); // DEBUG
-      }
-    })
-    .catch((err) => {
-      global.log(`Error while loading user: ${err}`); // DEBUG
-      // res.status(500).send('error');
+    .then((res) => {
+      console.log(res);
+      response.data = res;
     });
+
+  // await User.findOne(query)
+  //   .exec()
+  //   .then((user) => {
+  //     if (user == null) {
+  //       response.status = 400;
+  //       response.data = 'user_not_found';
+  //       global.log('User not found'); // DEBUG
+  //     } else {
+  //       response.status = 200;
+  //       response.data = user;
+  //       global.log(`Found user ->${user.email}`); // DEBUG
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     global.log(`Error while loading user: ${err}`); // DEBUG
+  //     response.status = 500;
+  //     response.data = 'error';
+  //   });
+
+  return response;
 };
 
 /**
