@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 const morgan = require('morgan');
 
 const app = express();
@@ -25,6 +26,12 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // TODO insert here the require for every db schema you need
+require('./model/userModel');
+
+global.appRoot = path.resolve(__dirname);
+
+// Routes
+require('./routes/userRoutes');
 
 app.use((req, res) => {
   res.status(404).send({ url: `${req.originalUrl} not found` });

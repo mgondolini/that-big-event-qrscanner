@@ -1,19 +1,21 @@
 const express = require('express');
-const user = require('../services/userService');
+const userService = require('../services/userService');
 
 const router = new express.Router();
-
+console.log('routes');
 /**
  * Logs user into the system
  */
 router.post('/login', async (req, res, next) => {
+  console.log('try to post login');
   const options = {
     email: req.query['email'],
     password: req.query['password']
   };
 
   try {
-    const result = await user.loginUser(options);
+    console.log('try to post login2');
+    const result = await userService.loginUser(options);
     res.status(result.status || 200).send(result.data);
   } catch (err) {
     next(err);
@@ -28,7 +30,7 @@ router.get('/logout', async (req, res, next) => {
   };
 
   try {
-    const result = await user.logoutUser(options);
+    const result = await userService.logoutUser(options);
     res.status(200).send(result.data);
   } catch (err) {
     return res.status(500).send({
@@ -48,7 +50,7 @@ router.get('/findUser/:code', async (req, res, next) => {
   };
 
   try {
-    const result = await user.findUser(options);
+    const result = await userService.findUser(options);
     res.status(200).send(result.data);
   } catch (err) {
     next(err);
@@ -65,7 +67,7 @@ router.put('/addContact', async (req, res, next) => {
   };
 
   try {
-    const result = await user.addContact(options);
+    const result = await userService.addContact(options);
     res.status(200).send(result.data);
   } catch (err) {
     next(err);
