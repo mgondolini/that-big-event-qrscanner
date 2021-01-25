@@ -23,20 +23,23 @@ mongoose.connect('mongodb+srv://BEadmin:BEadmin@cluster0.h1eqt.mongodb.net/big-e
 
 // Get the default connection
 const db = mongoose.connection;
-console.log(`dbname${db.db}`);
 
 // Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+  // we're connected!
+  console.log('connected to mongodb');
+});
 
 // TODO insert here the require for every db schema you need
-require('./model/userModel');
+require('./src/model/userModel');
 
 global.appRoot = path.resolve(__dirname);
 
 /**
  * Routes
  */
-const router = require('./routes/userRoutes');
+const router = require('./src/routes/userRoutes');
 app.use('/', router);
 
 app.listen(3000, () => {
