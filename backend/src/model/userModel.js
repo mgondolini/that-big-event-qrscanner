@@ -16,7 +16,7 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
   company: String,
   code: { type: Number, required: true },
-  contact: [ContactSchema]
+  contacts: []
 });
 
-module.exports = mongoose.model('User', UserSchema, 'Users');
+module.exports = mongoose.model('User', UserSchema, 'user');
