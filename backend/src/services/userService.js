@@ -6,49 +6,34 @@ console.log('user service');
  * @param {Object} options
  * @param {String} options.email The email for login
  * @param {String} options.password The password for login
- * @throws {Error}
  * @return {Promise}
  */
 exports.loginUser = async (options) => {
-  //al momento non servono
   const query = {email:  options.email , password: options.password};
-  console.log(`LOGIN email: ${query.email}`);
   
   const response = {
     status: 200,
     data: ''
   };
 
-  console.log('loginuser');
-  console.log(User);
-
-  //prova a trovare tutti i doc nel db
-
-  User.find()
+  await User.findOne(query)
     .exec()
-    .then((res) => {
-      console.log(res);
-      response.data = res;
+    .then((user) => {
+      if (user == null) {
+        response.status = 400;
+        response.data = 'user_not_found';
+        global.log('User not found'); // DEBUG
+      } else {
+        response.status = 200;
+        response.data = user;
+        global.log(`Found user ->${user.email}`); // DEBUG
+      }
+    })
+    .catch((err) => {
+      global.log(`Error while loading user: ${err}`); // DEBUG
+      response.status = 500;
+      response.data = 'error';
     });
-
-  // await User.findOne(query)
-  //   .exec()
-  //   .then((user) => {
-  //     if (user == null) {
-  //       response.status = 400;
-  //       response.data = 'user_not_found';
-  //       global.log('User not found'); // DEBUG
-  //     } else {
-  //       response.status = 200;
-  //       response.data = user;
-  //       global.log(`Found user ->${user.email}`); // DEBUG
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     global.log(`Error while loading user: ${err}`); // DEBUG
-  //     response.status = 500;
-  //     response.data = 'error';
-  //   });
 
   return response;
 };

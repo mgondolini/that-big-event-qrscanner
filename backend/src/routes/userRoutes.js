@@ -8,13 +8,13 @@ console.log('routes');
  * Logs user into the system
  */
 router.post('/login', async (req, res, next) => {
-  //dati veri di prova
+  //TODO configurare il body su swagger
+  console.log(req.query.email);
+  
   const options = {
-    email: 'annalisa.rossi@email.com',
-    password: 'qweasd123'
+    email: req.query.email,
+    password: req.query.password
   };
-
-  console.log(`routes options: \t${options.email}`); //DEBUG
 
   try {
     const result = await userService.loginUser(options);
