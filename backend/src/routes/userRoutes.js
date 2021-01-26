@@ -10,7 +10,7 @@ console.log('routes');
 router.post('/login', async (req, res, next) => {
   //TODO configurare il body su swagger
   console.log(req.query.email);
-  
+
   const options = {
     email: req.query.email,
     password: req.query.password
@@ -48,8 +48,10 @@ router.get('/logout', async (req, res, next) => {
  */
 router.get('/findUser/:code', async (req, res, next) => {
   const options = {
-    code: req.params['code']
+    code: req.params.code
   };
+
+  console.log(`code${options.code}`);
 
   try {
     const result = await userService.findUser(options);

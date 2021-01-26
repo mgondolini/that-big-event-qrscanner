@@ -75,28 +75,33 @@ module.exports.logoutUser = async (options) => {
  * @return {Promise}
  */
 module.exports.findUser = async (options) => {
-  console.log(options);
-  // Implement your business logic here...
-  //
-  // This function should return as follows:
-  //
-  // return {
-  //   status: 200, // Or another success code.
-  //   data: [] // Optional. You can put whatever you want here.
-  // };
-  //
-  // If an error happens during your business logic implementation,
-  // you should throw an error as follows:
-  //
-  // throw new ServerError({
-  //   status: 500, // Or another error code.
-  //   error: 'Server Error' // Or another error message.
-  // });
-
-  return {
+  const query = {code: options.code};
+  
+  const response = {
     status: 200,
-    data: 'findUser ok!'
+    data: ''
   };
+
+  await User.findOne(query)
+    .exec()
+    .then((user) => {
+      if (user == null) {
+        response.status = 400;
+        response.data = 'user_not_found';
+        global.log('User not found'); // DEBUG
+      } else {
+        response.status = 200;
+        response.data = user;
+        global.log(`Found user ->${user.email}`); // DEBUG
+      }
+    })
+    .catch((err) => {
+      global.log(`Error while loading user: ${err}`); // DEBUG
+      response.status = 500;
+      response.data = 'error';
+    });
+
+  return response;
 };
 
 /**
