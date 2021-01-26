@@ -1,16 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
 const app = express();
 
+app.use(express.json());
 app.use(morgan('combined'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({ limit: '50MB' }));
+app.use(bodyParser.json());
  
 global.log = function log (msg) {
   console.log(msg);
@@ -40,6 +41,7 @@ global.appRoot = path.resolve(__dirname);
  * Routes
  */
 const router = require('./src/routes/userRoutes');
+const { json } = require('body-parser');
 app.use('/', router);
 
 app.listen(3000, () => {

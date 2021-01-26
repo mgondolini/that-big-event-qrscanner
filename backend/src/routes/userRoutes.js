@@ -64,14 +64,15 @@ router.get('/findUser/:code', async (req, res, next) => {
 /**
  * Add Contact to user contacts
  */
-router.put('/addContact', async (req, res, next) => {
-  const options = {
-    contact: req.query['contact'],
-    body: req.body['body']
-  };
+router.put('/addContact/:code', async (req, res, next) => {
+  console.log(req);
+  const code = {code: req.params.code};
+  const email = {email: req.body.email};
+
+  console.log(email);
 
   try {
-    const result = await userService.addContact(options);
+    const result = await userService.addContact(code, email);
     res.status(200).send(result.data);
   } catch (err) {
     next(err);
