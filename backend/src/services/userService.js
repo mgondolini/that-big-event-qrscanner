@@ -68,17 +68,12 @@ module.exports.logoutUser = async (options) => {
 };
 
 /**
- * @param {Object} options
- * @param {String} options.code user that needs to be found
- * @throws {Error}
- * @return {Promise}
+ * 
+ * @param {String} code user that needs to be found
  */
 module.exports.findUser = async (code) => {
   const query = code;
 
-  console.log('code');
-  console.log(query);
-  
   const response = {
     status: 200,
     data: ''
@@ -114,13 +109,8 @@ module.exports.findUser = async (code) => {
  * @return {Promise}
  */
 module.exports.addContact = async (code, email) => {
-  console.log(code);
-  console.log(email);
-    
-  const response = {
-    status: 200,
-    data: ''
-  };
+  let status;
+  let data;
 
   const userFound = await this.findUser(code);
 
@@ -132,42 +122,48 @@ module.exports.addContact = async (code, email) => {
   };
 
   if (userFound.status == 200) {
-    User.findOne(email)
+    await User.findOne(email)
       .exec()
       .then((user) => {
         if (user == null) {
-          response.status = 400;
-          response.data = 'user_not_found';
-          console.log('user_not_found');
+          status = 400;
+          data = 'user_not_found';
+          console.log('user_not_found'); //DEBUG
         } else {
-          console.log(contact.data);
-          console.log(user.contacts);
-          console.log(user);
-          if (user.contacts.find(c => c.email !== contact.email)) {
-            user.contacts.push(contact);
-            console.log(user.contacts);
-            user.save()
-              .then((updated) => {
-                response.status = 200;
-                response.data = updated;
-                console.log(updated);
-              })
-              .catch((err) => {
-                response.status = 500;
-                response.data = `internal_server_error ${err}`;
-                console.log('internal_server_error');
-              });
-          } else {
-            response.status = 400;
-            response.data = 'user_not_found';
-          }
+          user.contacts.forEach(c => {
+            console.log(`c ${c.email}`);
+            console.log('contact');
+            console.log(contact.email);
+            if (c.email != contact.email) {
+              user.contacts.push(contact);
+              console.log(user.contacts); //DEBUG
+            } else {
+              status = 400;
+              data = 'contact already inserted';
+              console.log('contact already inserted'); //DEBUG
+            }
+          });
+          user.save()
+            .then((updated) => {
+              status = 200;
+              data = updated;
+              console.log(updated); //DEBUG
+            })
+            .catch((err) => {
+              status = 500;
+              data = `internal_server_error ${err}`;
+              console.log('internal_server_error'); //DEBUG
+            });
         }
       });
   } else {
-    response.status = 400;
-    response.data = 'user not found';
+    status = 400;
+    data = 'user not found';
   }
-  
-  return response;
+
+  return {
+    status,
+    data
+  };
 };
 

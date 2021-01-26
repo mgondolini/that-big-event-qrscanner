@@ -73,7 +73,7 @@ router.put('/addContact/:code', async (req, res, next) => {
 
   try {
     const result = await userService.addContact(code, email);
-    res.status(200).send(result.data);
+    res.status(result.status || 200).send(result.data);
   } catch (err) {
     next(err);
   }
