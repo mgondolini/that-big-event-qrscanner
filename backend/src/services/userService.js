@@ -3,42 +3,6 @@ const User = mongoose.model('User');
 
 /**
  * @param {Object} options
- * @param {String} options.email The email for login
- * @param {String} options.password The password for login
- * @return {Promise}
- */
-exports.loginUser = async (options) => {
-  const query = {email:  options.email , password: options.password};
-  
-  const response = {
-    status: 200,
-    data: ''
-  };
-
-  await User.findOne(query)
-    .exec()
-    .then((user) => {
-      if (user == null) {
-        response.status = 400;
-        response.data = 'user_not_found';
-        global.log('User not found'); // DEBUG
-      } else {
-        response.status = 200;
-        response.data = user;
-        global.log(`Found user ->${user.email}`); // DEBUG
-      }
-    })
-    .catch((err) => {
-      global.log(`Error while loading user: ${err}`); // DEBUG
-      response.status = 500;
-      response.data = 'Error while loading user';
-    });
-
-  return response;
-};
-
-/**
- * @param {Object} options
  * @throws {Error}
  * @return {Promise}
  */
@@ -112,6 +76,7 @@ exports.addContact = async (code, email) => {
   let status;
   let data;
 
+  //TODO controllare i dati provenienti da questo 
   const userFound = await this.findUserByCode(code);
 
   const contact = {
@@ -125,21 +90,22 @@ exports.addContact = async (code, email) => {
     await User.findOne(email)
       .exec()
       .then((user) => {
+        console.log('user', user);
         if (user == null) {
           status = 400;
           data = 'user_not_found';
           global.log('user_not_found'); //DEBUG
         } else {
+          if (user.contacts.length == 0) {
+            user.contacts.push(contact);
+          }
           user.contacts.forEach(c => {
-            global.log(`c ${c.email}`);
-            global.log('contact');
-            global.log(contact.email);
-            if (c.email != contact.email) {
+            if (c.email !== contact.email) {
               user.contacts.push(contact);
               global.log(user.contacts); //DEBUG
             } else {
               status = 400;
-              data = 'contact already inserted';
+              data = 'Contact already inserted';
               global.log('contact already inserted'); //DEBUG
             }
           });
@@ -147,7 +113,7 @@ exports.addContact = async (code, email) => {
             .then((updated) => {
               status = 200;
               data = updated;
-              global.log(updated); //DEBUG
+              global.log('updated',updated); //DEBUG
             })
             .catch((err) => {
               status = 500;

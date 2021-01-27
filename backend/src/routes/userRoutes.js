@@ -1,20 +1,27 @@
 const express = require('express');
 const userService = require('../services/userService');
+const authService = require('../services/authService');
 
 const router = new express.Router();
 console.log('routes');
 
 /**
+ * Register user into the system. 
+ * This is only to generate user hashed password, not use in FE side
+ */
+router.post('/auth/signup', authService.signup);
+
+/**
  * Logs user into the system
  */
-router.post('/user/login', async (req, res, next) => {
+router.post('/auth/login', async (req, res, next) => {
   const options = {
     email: req.body.email,
     password: req.body.password
   };
 
   try {
-    const result = await userService.loginUser(options);
+    const result = await authService.login(options);
     res.status(result.status || 200).send(result.data);
   } catch (err) {
     next(err);
