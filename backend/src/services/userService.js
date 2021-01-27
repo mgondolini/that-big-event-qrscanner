@@ -31,7 +31,7 @@ exports.loginUser = async (options) => {
     .catch((err) => {
       global.log(`Error while loading user: ${err}`); // DEBUG
       response.status = 500;
-      response.data = 'error';
+      response.data = 'Error while loading user';
     });
 
   return response;
@@ -42,8 +42,8 @@ exports.loginUser = async (options) => {
  * @throws {Error}
  * @return {Promise}
  */
-module.exports.logoutUser = async (options) => {
-  console.log(options);
+exports.logoutUser = async (options) => {
+  global.log(options);
   // Implement your business logic here...
   //
   // This function should return as follows:
@@ -71,7 +71,7 @@ module.exports.logoutUser = async (options) => {
  * 
  * @param {String} code user that needs to be found
  */
-module.exports.findUser = async (code) => {
+exports.findUserByCode = async (code) => {
   const query = code;
 
   const response = {
@@ -84,8 +84,8 @@ module.exports.findUser = async (code) => {
     .then((user) => {
       if (user == null) {
         response.status = 400;
-        response.data = 'user_not_found';
-        global.log('User not found'); // DEBUG
+        response.data = 'User code not found';
+        global.log('User code not found'); // DEBUG
       } else {
         response.status = 200;
         response.data = user;
@@ -95,7 +95,7 @@ module.exports.findUser = async (code) => {
     .catch((err) => {
       global.log(`Error while loading user: ${err}`); // DEBUG
       response.status = 500;
-      response.data = 'error';
+      response.data = 'Error while loading user';
     });
 
   return response;
@@ -108,11 +108,11 @@ module.exports.findUser = async (code) => {
  * @throws {Error}
  * @return {Promise}
  */
-module.exports.addContact = async (code, email) => {
+exports.addContact = async (code, email) => {
   let status;
   let data;
 
-  const userFound = await this.findUser(code);
+  const userFound = await this.findUserByCode(code);
 
   const contact = {
     firstName: userFound.data.firstName,
@@ -128,37 +128,37 @@ module.exports.addContact = async (code, email) => {
         if (user == null) {
           status = 400;
           data = 'user_not_found';
-          console.log('user_not_found'); //DEBUG
+          global.log('user_not_found'); //DEBUG
         } else {
           user.contacts.forEach(c => {
-            console.log(`c ${c.email}`);
-            console.log('contact');
-            console.log(contact.email);
+            global.log(`c ${c.email}`);
+            global.log('contact');
+            global.log(contact.email);
             if (c.email != contact.email) {
               user.contacts.push(contact);
-              console.log(user.contacts); //DEBUG
+              global.log(user.contacts); //DEBUG
             } else {
               status = 400;
               data = 'contact already inserted';
-              console.log('contact already inserted'); //DEBUG
+              global.log('contact already inserted'); //DEBUG
             }
           });
           user.save()
             .then((updated) => {
               status = 200;
               data = updated;
-              console.log(updated); //DEBUG
+              global.log(updated); //DEBUG
             })
             .catch((err) => {
               status = 500;
               data = `internal_server_error ${err}`;
-              console.log('internal_server_error'); //DEBUG
+              global.log('internal_server_error'); //DEBUG
             });
         }
       });
   } else {
     status = 400;
-    data = 'user not found';
+    data = 'User not found';
   }
 
   return {

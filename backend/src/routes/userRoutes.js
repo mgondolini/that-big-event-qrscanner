@@ -7,13 +7,10 @@ console.log('routes');
 /**
  * Logs user into the system
  */
-router.post('/login', async (req, res, next) => {
-  //TODO configurare il body su swagger
-  console.log(req.query.email);
-
+router.post('/user/login', async (req, res, next) => {
   const options = {
-    email: req.query.email,
-    password: req.query.password
+    email: req.body.email,
+    password: req.body.password
   };
 
   try {
@@ -27,7 +24,7 @@ router.post('/login', async (req, res, next) => {
 /**
  * Logs out current logged in user session
  */
-router.get('/logout', async (req, res, next) => {
+router.get('/user/logout', async (req, res, next) => {
   const options = {
   };
 
@@ -43,28 +40,9 @@ router.get('/logout', async (req, res, next) => {
 });
 
 /**
- * Find user by code. This can only be done by the logged in 
- * user.
- */
-router.get('/findUser/:code', async (req, res, next) => {
-  const options = {
-    code: req.params.code
-  };
-
-  console.log(`code${options.code}`);
-
-  try {
-    const result = await userService.findUser(options);
-    res.status(200).send(result.data);
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
  * Add Contact to user contacts
  */
-router.put('/addContact/:code', async (req, res, next) => {
+router.put('/user/addContact/:code', async (req, res, next) => {
   console.log(req);
   const code = {code: req.params.code};
   const email = {email: req.body.email};
