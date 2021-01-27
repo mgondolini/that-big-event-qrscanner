@@ -31,12 +31,12 @@
 export default {
     name: 'login',
     data() {
-        return {
+      return {
         form: {
             email: '',
             password: ''
         },
-        }
+      }
     },
     methods: {
         onSubmit(event) {

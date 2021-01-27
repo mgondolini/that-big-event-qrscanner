@@ -19,7 +19,7 @@
             <template #button-content>
               <em>Name Surname</em>
             </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
+            <b-dropdown-item href="profile">Profile</b-dropdown-item>
             <b-dropdown-item href="#">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
