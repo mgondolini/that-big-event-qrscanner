@@ -1,6 +1,6 @@
 <template>
     <div id="login">
-        <b-card title="Login" sub-title="Card subtitle">
+        <b-card title="Login">
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">
                 <b-form-group id="input-group-email" label="Your email" label-for="input-email">
                     <b-form-input
@@ -28,6 +28,12 @@
 </template>
 
 <script>
+import Axios from 'axios';
+const axios = Axios.create({
+  baseURL: 'http://localhost:3000/',
+//   timeout: 1000
+});
+
 export default {
     name: 'Login',
     data() {
@@ -41,8 +47,15 @@ export default {
     },
     methods: {
         onSubmit(event) {
-        event.preventDefault()
-        alert(JSON.stringify(this.form))
+            event.preventDefault()
+            alert(JSON.stringify(this.form))
+
+            axios.post('/auth/login', this.form)
+                .then((response) => {
+                    alert(JSON.stringify(response.data));
+    
+                    this.$router.push('/code_scanner');
+                }).catch((error) => alert(error));
         },
         onReset(event) {
         event.preventDefault()
