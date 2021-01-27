@@ -1,9 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from '../views/Login.vue';
-// import CodeScanner from '../views/CodeScanner.vue';
-// import Contacts from '../views/Contacts.vue';
-import Profile from '../views/Profile.vue';
+import CodeScanner from '../views/CodeScanner.vue';
+import Contacts from '../views/Contacts.vue';
 
 Vue.use(VueRouter);
 
@@ -14,9 +13,14 @@ const routes = [
     component: Login,
   },
   {
-    path: '/profile',
-    name: 'profile',
-    component: Profile,
+    path: '/code_scanner',
+    name: 'code_scanner',
+    component: CodeScanner,
+  },
+  {
+    path: '/contacts',
+    name: 'contacts',
+    component: Contacts,
   }
 ];
 
