@@ -3,7 +3,6 @@ const userService = require('../services/userService');
 const authService = require('../services/authService');
 
 const router = new express.Router();
-console.log('routes');
 
 /**
  * Register user into the system. 
