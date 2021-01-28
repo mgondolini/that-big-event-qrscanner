@@ -17,7 +17,7 @@
           <b-nav-item-dropdown v-if="this.$store.state.isLogged === true">
             <!-- Using 'button-content' slot -->
             <template #button-content>
-              <em>{{ getUsername }}</em>
+              <em>{{ getEmail }}</em>
             </template>>
             <b-dropdown-item href="#">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
@@ -37,7 +37,7 @@ export default {
       }
     },
     computed:{
-      getUsername(){
+      getEmail(){
         return this.$store.state.email;
       }
     }
