@@ -20,6 +20,7 @@ const store = new Vuex.Store({
   state: {
     isLogged: false,
     email: '',
+    contacts: [],
     axios : Axios.create({
       baseURL: 'http://localhost:3000/',
       timeout: 1000
@@ -31,11 +32,15 @@ const store = new Vuex.Store({
       localStorage.user = newState.user;
       state.isLogged = true;
       state.email = newState.user.email;
+      state.contacts = newState.user.contacts;
       state.http = Axios.create({
         timeout: 10000,
         headers: { token: newState.token },
       });
     },
+    addContact(state, newState) {
+      state.contacts = newState.user.contacts;
+    }
   }
 })
 
