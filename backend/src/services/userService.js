@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-
+const Contact = mongoose.model('Contact');
 /**
  * @param {Object} options
  * @throws {Error}
@@ -80,54 +80,66 @@ exports.addContact = async (code, email) => {
   //TODO controllare i dati provenienti da questo 
   const userFound = await this.findUserByCode(code);
 
-  const contact = {
+  const contact = new Contact({
     firstName: userFound.data.firstName,
     lastName: userFound.data.lastName,
     email: userFound.data.email,
     company: userFound.data.company
-  };
+  });
 
-  if (userFound.status == 200) {
-    await User.findOne(email)
+  if (userFound.status != 200) {
+    status = userFound.status;
+    data = userFound.data;
+    global.log(userFound.data); //DEBUG
+  } else {
+    const loggedUser = await User.findOne(email)
       .exec()
       .then((user) => {
         console.log('user', user);
         if (user == null) {
           status = 400;
-          data = 'user_not_found';
+          data = 'User not found';
           global.log('user_not_found'); //DEBUG
         } else {
-          if (user.contacts.length == 0) {
-            user.contacts.push(contact);
-          }
-          user.contacts.forEach(c => {
-            if (c.email !== contact.email) {
-              user.contacts.push(contact);
-              global.log(user.contacts); //DEBUG
-            } else {
-              status = 400;
-              data = 'Contact already inserted';
-              global.log('contact already inserted'); //DEBUG
-            }
-          });
-          user.save()
-            .then((updated) => {
-              status = 200;
-              data = updated;
-              global.log('updated',updated); //DEBUG
-            })
-            .catch((err) => {
-              status = 500;
-              data = `internal_server_error ${err}`;
-              global.log('internal_server_error'); //DEBUG
-            });
+          status = 200;
+          data = user;
+          return user;
+        }
+      })
+      .catch((error) => {
+        status = 500;
+        data = 'Error while loading user';
+        global.log(`Error while loading user ${error}`);
+      });
+      
+    if (loggedUser.contacts.length === 0) {
+      loggedUser.contacts.push(contact);
+    } else {
+      loggedUser.contacts.forEach(c => {
+        if (c.email !== contact.email) {
+          loggedUser.contacts.push(contact);
+        } else {
+          status = 400;
+          data = 'Contact already inserted';
+          global.log('Contact already inserted'); //DEBUG
+          return;
         }
       });
-  } else {
-    status = 400;
-    data = 'User not found';
+    }
+
+    loggedUser.save()
+      .then((updated) => {
+        status = 200;
+        data.user = updated;
+      })
+      .catch((err) => {
+        status = 500;
+        data = 'Internal Server Error';
+        global.log(`internal_server_error  ${err}`); //DEBUG
+      });
   }
 
+  global.log('data', data);
   return {
     status,
     data
