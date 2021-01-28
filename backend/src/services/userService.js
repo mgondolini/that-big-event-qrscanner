@@ -38,31 +38,32 @@ exports.logoutUser = async (options) => {
 exports.findUserByCode = async (code) => {
   const query = code;
 
-  const response = {
-    status: 200,
-    data: ''
-  };
+  let status = 200;
+  let data = {};
 
   await User.findOne(query)
     .exec()
     .then((user) => {
       if (user == null) {
-        response.status = 400;
-        response.data = 'User code not found';
+        status = 400;
+        data = 'User code not found';
         global.log('User code not found'); // DEBUG
       } else {
-        response.status = 200;
-        response.data = user;
+        status = 200;
+        data = user;
         global.log(`Found user ->${user.email}`); // DEBUG
       }
     })
     .catch((err) => {
       global.log(`Error while loading user: ${err}`); // DEBUG
-      response.status = 500;
-      response.data = 'Error while loading user';
+      status = 500;
+      data = 'Error while loading user';
     });
 
-  return response;
+  return {
+    status,
+    data
+  };
 };
 
 /**
