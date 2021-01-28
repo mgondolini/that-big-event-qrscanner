@@ -28,12 +28,6 @@
 </template>
 
 <script>
-import Axios from 'axios';
-const axios = Axios.create({
-  baseURL: 'http://localhost:3000/',
-//   timeout: 1000
-});
-
 export default {
     name: 'Login',
     data() {
@@ -42,7 +36,7 @@ export default {
             email: '',
             password: ''
         },
-        show: true
+        show: true,
       }
     },
     methods: {
@@ -50,13 +44,15 @@ export default {
             event.preventDefault()
             alert(JSON.stringify(this.form))
 
-            axios.post('/auth/login', this.form)
+            this.$store.state.axios.post('/auth/login', this.form)
                 .then((response) => {
-                    alert(JSON.stringify(response.data.user));
-    
+                    alert(response.data.token);
+                    const token = response.data.token;
+                    const user = response.data.user;
+                    this.$store.commit('login', {token, user})
                     this.$router.push('/code_scanner');
                 }).catch((error) => {
-                    alert(error)
+                    alert(error.response.data)
                     this.onReset(event);
                 });
         },
