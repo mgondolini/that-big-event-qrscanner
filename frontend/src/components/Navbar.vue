@@ -13,24 +13,34 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item href="contacts">Contacts</b-nav-item>
-          <b-nav-item-dropdown>
+          <b-nav-item v-if="this.$store.state.isLogged === true" href="contacts">Contacts</b-nav-item>
+          <b-nav-item-dropdown v-if="this.$store.state.isLogged === true">
             <!-- Using 'button-content' slot -->
             <template #button-content>
-              <em>Name Surname</em>
+              <em>{{ getUsername }}</em>
             </template>>
             <b-dropdown-item href="#">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
     </b-collapse>
   </b-navbar>
-  
+ 
  </div>
 </template>
 
 <script>
 export default {
     name: "Navbar",
+    data(){
+      return{
+        
+      }
+    },
+    computed:{
+      getUsername(){
+        return this.$store.state.email;
+      }
+    }
 }
 </script>
 
