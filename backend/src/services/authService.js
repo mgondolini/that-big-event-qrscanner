@@ -75,6 +75,10 @@ exports.login = async (options) => {
   );
 
   console.log('Valid psw? ', passwordIsValid);
+  if (!passwordIsValid) {
+    response.status = 400;
+    response.data = 'Wrong password';
+  }
 
   const token = jwt.sign({ id: options.email }, secret, {
     expiresIn: 86400 // 24 hours
