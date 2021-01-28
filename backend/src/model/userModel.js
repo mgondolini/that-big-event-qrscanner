@@ -9,6 +9,8 @@ const ContactSchema = new Schema({
   company: String,
 }, { _id: false });
 
+module.exports = mongoose.model('Contact', ContactSchema);
+
 const UserSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },

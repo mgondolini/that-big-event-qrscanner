@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
  
 global.log = function log (msg) {
-  console.log(msg);
+  console.log(`[log] ${msg}`);
 };
 
 /**
@@ -29,7 +29,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
   // we're connected!
-  console.log('connected to mongodb');
+  global.log('Connected to mongodb');
 });
 
 // TODO insert here the require for every db schema you need
