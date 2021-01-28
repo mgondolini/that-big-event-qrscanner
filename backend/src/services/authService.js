@@ -37,6 +37,8 @@ exports.signup = (req, res) => {
  */
 exports.login = async (options) => {
   const query = {email:  options.email};
+
+  console.log('options', options);
   
   const response = {
     status: 200,
@@ -53,7 +55,7 @@ exports.login = async (options) => {
         global.log('User not found'); // DEBUG
       } else {
         response.status = 200;
-        response.data = user;
+        response.data.user = user;
         global.log(`Found user ->${user.email}`); // DEBUG
         return user.password;
       }

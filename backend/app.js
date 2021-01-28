@@ -40,8 +40,7 @@ global.appRoot = path.resolve(__dirname);
 /**
  * Routes
  */
-const router = require('./src/routes/userRoutes');
-const { json } = require('body-parser');
+const router = require('./src/routes/routes');
 app.use('/', router);
 
 app.listen(3000, () => {
