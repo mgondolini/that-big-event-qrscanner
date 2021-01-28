@@ -52,10 +52,10 @@ export default {
 
             axios.post('/auth/login', this.form)
                 .then((response) => {
-                    alert(JSON.stringify(response.data));
+                    alert(JSON.stringify(response.data.user));
     
                     this.$router.push('/code_scanner');
-                }).catch((error) => alert(error));
+                }).catch((error) => alert(response.data));
         },
         onReset(event) {
         event.preventDefault()
