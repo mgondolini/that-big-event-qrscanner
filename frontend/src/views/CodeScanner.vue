@@ -40,8 +40,8 @@ export default {
         const body = {email: this.$store.state.email}
         this.$store.state.axios.put(`user/addContact/${this.form.code}`, body )
           .then((response) => {
-            alert(JSON.stringify(response.data.user))
-            this.$store.commit('addContact', {user: response.data.user})
+            alert(JSON.stringify(response.data))
+            this.$store.commit('addContact', {user: response.data})
             this.$router.push('/contacts');
           })
           .catch((error) => {
