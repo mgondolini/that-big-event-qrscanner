@@ -55,13 +55,16 @@ export default {
                     alert(JSON.stringify(response.data.user));
     
                     this.$router.push('/code_scanner');
-                }).catch((error) => alert(response.data));
+                }).catch((error) => {
+                    alert(error)
+                    this.onReset(event);
+                });
         },
         onReset(event) {
-        event.preventDefault()
-        // Reset our form values
-        this.form.email = ''
-        this.form.password = ''
+            event.preventDefault()
+            // Reset our form values
+            this.form.email = ''
+            this.form.password = ''
         }
     }
 }

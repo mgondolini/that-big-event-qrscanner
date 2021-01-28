@@ -25,6 +25,7 @@ export default {
           email: '',
           password: ''
       },
+        show: true
     }
   },
   methods: {
@@ -33,10 +34,10 @@ export default {
       alert(JSON.stringify(this.form))
       },
       onReset(event) {
-      event.preventDefault()
-      // Reset our form values
-      this.form.email = ''
-      this.form.password = ''
+        event.preventDefault()
+        // Reset our form values
+        this.form.email = ''
+        this.form.password = ''
       }
   }
 }

@@ -55,7 +55,7 @@ exports.login = async (options) => {
         global.log('User not found'); // DEBUG
       } else {
         response.status = 200;
-        response.data.user = user;
+        response.data = user;
         global.log(`Found user ->${user.email}`); // DEBUG
         return user.password;
       }
