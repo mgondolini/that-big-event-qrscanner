@@ -39,51 +39,56 @@ exports.login = async (options) => {
   const query = {email:  options.email};
 
   console.log('options', options);
-  
-  const response = {
-    status: 200,
-    data: ''
-  };
+
+  let status = 200;
+  let data = {};
 
   //TODO RESPONSE CON TOKEN
   const hashedPsw = await User.findOne(query)
     .exec()
     .then((user) => {
       if (user == null) {
-        response.status = 400;
-        response.data = 'user_not_found';
+        status = 400;
+        data = 'user_not_found';
         global.log('User not found'); // DEBUG
       } else {
-        response.status = 200;
-        response.data.user = user;
+        status = 200;
+        data.user = user;
         global.log(`Found user ->${user.email}`); // DEBUG
         return user.password;
       }
     })
     .catch((err) => {
       global.log(`Error while loading user: ${err}`); // DEBUG
-      response.status = 500;
-      response.data = 'Error while loading user';
+      status = 500;
+      data = 'Error while loading user';
     });
 
-  if (!response.data)
-    return response;
+  if (!data)
+    return data;
 
-  console.log('Hash: ', hashedPsw);
+  global.log('Hash: ', hashedPsw);
 
   const passwordIsValid = bcrypt.compareSync(
     options.password,
     hashedPsw
   );
 
-  console.log('Valid psw? ', passwordIsValid);
+  global.log('Valid psw? ', passwordIsValid);
+
+  if (!passwordIsValid) {
+    status = 400;
+    data = 'Wrong password';
+  }
 
   const token = jwt.sign({ id: options.email }, secret, {
     expiresIn: 86400 // 24 hours
   });
 
-  response.data.token = token;
-  console.log(response.data);
+  data.token = token;
 
-  return response;
+  return {
+    status,
+    data
+  };
 };
