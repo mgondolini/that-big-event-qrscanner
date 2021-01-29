@@ -31,6 +31,7 @@ const store = new Vuex.Store({
   },
   mutations: {
     login(state, signIn) {
+      console.log(JSON.stringify(signIn));
       localStorage.token = signIn.token;
       localStorage.user = signIn.user;
       state.isAuthenticated = true;
@@ -44,6 +45,7 @@ const store = new Vuex.Store({
     addContact(state, userUpdated) {
       console.log('newstate user contacts', userUpdated.user.contacts);
       state.contacts = userUpdated.user.contacts;
+      console.log("tk ---"+state.token)
     },
     logout(state) {
       localStorage.toke = 'InvalidToken';
@@ -58,6 +60,8 @@ const store = new Vuex.Store({
     },
   }
 })
+
+// localStorage.store = store;
 
 router.beforeEach((to, from, next) => {
   const routes = ['/login','/code_scanner', '/contacts'];

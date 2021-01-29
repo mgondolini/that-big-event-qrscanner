@@ -35,12 +35,14 @@ export default {
   methods: {
       onSubmit(event) {
         event.preventDefault()
-        // alert(JSON.stringify(this.form))
-        alert("1"+JSON.stringify(this.$store.state.contacts))
+        console.log(JSON.stringify(this.form))
+        console.log("1"+JSON.stringify(this.$store.state.contacts))
+        
         const body = {email: this.$store.state.email}
+        console.log(body)
         this.$store.state.axios.put(`user/addContact/${this.form.code}`, body )
           .then((response) => {
-            console.log('respose', response.data)
+            console.log('response', response.data)
             const user = response.data.user
             this.$store.commit('addContact', { user })
             this.$router.push('/contacts').catch(e=>console.log(e));    
