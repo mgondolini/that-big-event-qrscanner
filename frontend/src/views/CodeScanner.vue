@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'CodeScanner',
+  name: 'code_scanner',
   data() {
     return {
       form: {
@@ -43,7 +43,7 @@ export default {
             console.log('respose', response.data)
             const user = response.data.user
             this.$store.commit('addContact', { user })
-            this.$router.push('/contacts');    
+            this.$router.push('/contacts').catch(e=>console.log(e));    
           })
           .catch((error) => {
             alert(error.response.data)

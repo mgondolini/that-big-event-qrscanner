@@ -29,7 +29,7 @@
 
 <script>
 export default {
-    name: 'Login',
+    name: 'login',
     data() {
       return {
         form: {
@@ -51,7 +51,7 @@ export default {
                     const user = response.data.user
                     alert(JSON.stringify(user.contacts))
                     this.$store.commit('login', {token, user})
-                    this.$router.push('/code_scanner')
+                    this.$router.push('/code_scanner').catch(e=>console.log(e))
                 }).catch((error) => {
                     alert(error.response.data)
                     this.onReset(event);

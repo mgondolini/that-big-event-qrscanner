@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: "Contacts",
+  name: "contacts",
   data(){
     return{
       contacts: this.$store.state.contacts
