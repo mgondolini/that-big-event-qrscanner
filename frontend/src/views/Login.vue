@@ -54,6 +54,8 @@ export default {
                     this.$router.push('/code_scanner').catch(e=>console.log(e))
                 }).catch((error) => {
                     alert(error.response.data)
+                    
+                    console.log(error.response.data)
                     this.onReset(event);
                 });
         },

@@ -47,6 +47,7 @@ export default {
           })
           .catch((error) => {
             alert(error.response.data)
+            console.log(error.response.data)
           });
       },
       onReset(event) {
