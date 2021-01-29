@@ -124,16 +124,18 @@ exports.addContact = async (code, email) => {
       });
     }
 
-    await loggedUser.save()
-      .then((updated) => {
-        status = 200;
-        data.user = updated;
-      })
-      .catch((err) => {
-        status = 500;
-        data = 'Internal Server Error';
-        global.log(`internal_server_error  ${err}`); //DEBUG
-      });
+    if (status === 200) {
+      await loggedUser.save()
+        .then((updated) => {
+          status = 200;
+          data.user = updated;
+        })
+        .catch((err) => {
+          status = 500;
+          data = 'Internal Server Error';
+          global.log(`internal_server_error  ${err}`); //DEBUG
+        });
+    }
   }
 
   global.log('data:');
