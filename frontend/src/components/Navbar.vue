@@ -8,18 +8,18 @@
 
     <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="code_scanner">Scan QRcode</b-nav-item>
+          <b-nav-item v-if="this.$store.state.isAuthenticated === true" href="code_scanner">Scan QRcode</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item v-if="this.$store.state.isLogged === true" href="contacts">Contacts</b-nav-item>
-          <b-nav-item-dropdown v-if="this.$store.state.isLogged === true">
+          <b-nav-item v-if="this.$store.state.isAuthenticated === true" href="contacts">Contacts</b-nav-item>
+          <b-nav-item-dropdown v-if="this.$store.state.isAuthenticated === true">
             <!-- Using 'button-content' slot -->
             <template #button-content>
               <em>{{ getEmail }}</em>
             </template>>
-            <b-dropdown-item href="#">Logout</b-dropdown-item>
+            <b-dropdown-item @click.prevent="signOut()">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
     </b-collapse>
@@ -39,6 +39,14 @@ export default {
     computed:{
       getEmail(){
         return this.$store.state.email;
+      }
+    },
+    methods: {
+      signOut(){
+        this.$store.commit('logout');
+        if (this.$route.path !== '/login') {
+          this.$router.push('/login');
+        }
       }
     }
 }

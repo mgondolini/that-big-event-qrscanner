@@ -20,32 +20,61 @@ Vue.config.productionTip = false;
 
 const store = new Vuex.Store({
   state: {
-    isLogged: false,
+    isAuthenticated: false,
     email: '',
     contacts: [],
     axios : Axios.create({
       baseURL: 'http://localhost:3000/',
-      timeout: 1000
+      timeout: 10000,
+      headers: { token: 'InvalidToken' },
     })
   },
   mutations: {
-    login(state, newState) {
-      localStorage.token = newState.token;
-      localStorage.user = newState.user;
-      state.isLogged = true;
-      state.email = newState.user.email;
-      state.contacts = newState.user.contacts;
-      state.http = Axios.create({
+    login(state, signIn) {
+      localStorage.token = signIn.token;
+      localStorage.user = signIn.user;
+      state.isAuthenticated = true;
+      state.email = signIn.user.email;
+      state.contacts = signIn.user.contacts;
+      state.axios = Axios.create({
         timeout: 10000,
-        headers: { token: newState.token },
+        headers: { token: signIn.token },
       });
     },
-    addContact(state, newState) {
-      console.log('newstate user contacts', newState.user.contacts);
-      state.contacts = newState.user.contacts;
-    }
+    addContact(state, userUpdated) {
+      console.log('newstate user contacts', userUpdated.user.contacts);
+      state.contacts = userUpdated.user.contacts;
+    },
+    logout(state) {
+      localStorage.toke = 'InvalidToken';
+      localStorage.user = '';
+      state.isAuthenticated = false;
+      state.email = '';
+      state.contacts = [];
+      state.axios = Axios.create({
+        timeout: 10000,
+        headers: { token: 'InvalidToken' },
+      });
+    },
   }
 })
+
+router.beforeEach((to, from, next) => {
+  const routes = ['/login','/code_scanner', '/contacts'];
+  const loggedRoute = ['/code_scanner', '/contacts'];
+  const p = to.path;
+
+  console.log(store.state)
+
+  if (!routes.includes(p)) {
+    next('/code_scanner');
+  }else if (loggedRoute.includes(p) && !store.state.isAuthenticated) {
+    next('/login');
+  } else {
+    console.log("auth?"+store.state.isAuthenticated)
+    next();
+  }
+});
 
 new Vue({
   router,
