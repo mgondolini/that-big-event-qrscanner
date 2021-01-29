@@ -52,6 +52,7 @@ router.put('/user/addContact/:code', authService.verifyToken, async (req, res, n
   const code = {code: req.params.code};
   const email = {email: req.body.email};
   
+  global.log('add contact');
   try {
     const result = await userService.addContact(code, email);
     res.status(result.status || 200).send(result.data);
