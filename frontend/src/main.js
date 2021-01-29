@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import Vuex from 'vuex';
 import Axios from 'axios';
+import Clipboard from 'v-clipboard'
 import "./registerServiceWorker";
 import router from './router/router';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -13,6 +14,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.use(Clipboard)
 
 Vue.config.productionTip = false;
 
