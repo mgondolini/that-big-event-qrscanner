@@ -27,28 +27,28 @@ router.post('/auth/login', async (req, res, next) => {
   }
 });
 
-/**
- * Logs out current logged in user session
- */
-router.get('/user/logout', async (req, res, next) => {
-  const options = {
-  };
+// /**
+//  * Logs out current logged in user session
+//  */
+// router.get('/user/logout', async (req, res, next) => {
+//   const options = {
+//   };
 
-  try {
-    const result = await userService.logoutUser(options);
-    res.status(200).send(result.data);
-  } catch (err) {
-    return res.status(500).send({
-      status: 500,
-      error: 'Server Error'
-    });
-  }
-});
+//   try {
+//     const result = await userService.logoutUser(options);
+//     res.status(200).send(result.data);
+//   } catch (err) {
+//     return res.status(500).send({
+//       status: 500,
+//       error: 'Server Error'
+//     });
+//   }
+// });
 
 /**
  * Add Contact to user contacts
  */
-router.put('/user/addContact/:code', async (req, res, next) => {
+router.put('/user/addContact/:code', authService.verifyToken, async (req, res, next) => {
   const code = {code: req.params.code};
   const email = {email: req.body.email};
   

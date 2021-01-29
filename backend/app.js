@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const config = require('./config/config.json');
 
 const app = express();
 
@@ -43,6 +44,14 @@ global.appRoot = path.resolve(__dirname);
 const router = require('./src/routes/routes');
 app.use('/', router);
 
-app.listen(3000, () => {
+app.use((req, res, next) => {
+  res.header(
+    'Access-Control-Allow-Headers',
+    'x-access-token, Origin, Content-Type, Accept'
+  );
+  next();
+});
+
+app.listen(config.port, () => {
   global.log('Node API server started on port 3000');
 });
