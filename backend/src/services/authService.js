@@ -1,4 +1,4 @@
-const config = require('../../config/config.json');
+const config = require('../../config.json');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
@@ -7,7 +7,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 exports.verifyToken = (req, res, next) => {
-  const token = req.headers['x-access-token'];
+  const token = req.headers.token;
+  global.log(`token received ${token}`);
+  global.log(JSON.stringify(req.body));
 
   if (!token) {
     return res.status(403).send({ message: 'No token provided!' });
@@ -17,7 +19,9 @@ exports.verifyToken = (req, res, next) => {
     if (err) {
       return res.status(401).send({ message: 'Unauthorized!' });
     }
-    req.email = decoded.email;
+    global.log(JSON.stringify(decoded));
+    req.body.email = decoded.id;
+    
     next();
   });
 };
