@@ -49,12 +49,9 @@ router.get('/user/logout', async (req, res, next) => {
  * Add Contact to user contacts
  */
 router.put('/user/addContact/:code', async (req, res, next) => {
-  console.log(req);
   const code = {code: req.params.code};
   const email = {email: req.body.email};
-
-  console.log(email);
-
+  
   try {
     const result = await userService.addContact(code, email);
     res.status(result.status || 200).send(result.data);

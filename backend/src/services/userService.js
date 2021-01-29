@@ -74,8 +74,8 @@ exports.findUserByCode = async (code) => {
  * @return {Promise}
  */
 exports.addContact = async (code, email) => {
-  let status;
-  let data;
+  let status = 200;
+  let data = {};
 
   //TODO controllare i dati provenienti da questo 
   const userFound = await this.findUserByCode(code);
@@ -95,14 +95,11 @@ exports.addContact = async (code, email) => {
     const loggedUser = await User.findOne(email)
       .exec()
       .then((user) => {
-        console.log('user', user);
         if (user == null) {
           status = 400;
           data = 'User not found';
           global.log('user_not_found'); //DEBUG
         } else {
-          status = 200;
-          data = user;
           return user;
         }
       })
@@ -127,7 +124,7 @@ exports.addContact = async (code, email) => {
       });
     }
 
-    loggedUser.save()
+    await loggedUser.save()
       .then((updated) => {
         status = 200;
         data.user = updated;
@@ -139,7 +136,8 @@ exports.addContact = async (code, email) => {
       });
   }
 
-  global.log('data', data);
+  global.log('data:');
+  global.log(JSON.stringify(data));
   return {
     status,
     data
