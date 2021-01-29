@@ -65,6 +65,7 @@ router.beforeEach((to, from, next) => {
   const p = to.path;
 
   console.log(store.state)
+  console.log(localStorage.token)
 
   if (!routes.includes(p)) {
     next('/code_scanner');
