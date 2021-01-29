@@ -39,6 +39,7 @@ const store = new Vuex.Store({
       });
     },
     addContact(state, newState) {
+      console.log('newstate user contacts', newState.user.contacts);
       state.contacts = newState.user.contacts;
     }
   }

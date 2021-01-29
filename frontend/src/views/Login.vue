@@ -46,11 +46,12 @@ export default {
 
             this.$store.state.axios.post('/auth/login', this.form)
                 .then((response) => {
-                    alert(response.data.token);
-                    const token = response.data.token;
-                    const user = response.data.user;
+                    // alert(response.data.token)
+                    const token = response.data.token
+                    const user = response.data.user
+                    alert(JSON.stringify(user.contacts))
                     this.$store.commit('login', {token, user})
-                    this.$router.push('/code_scanner');
+                    this.$router.push('/code_scanner')
                 }).catch((error) => {
                     alert(error.response.data)
                     this.onReset(event);

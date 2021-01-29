@@ -36,16 +36,17 @@ export default {
       onSubmit(event) {
         event.preventDefault()
         // alert(JSON.stringify(this.form))
-        alert(this.$store.state.email)
+        alert("1"+JSON.stringify(this.$store.state.contacts))
         const body = {email: this.$store.state.email}
         this.$store.state.axios.put(`user/addContact/${this.form.code}`, body )
           .then((response) => {
-            alert(JSON.stringify(response.data))
-            this.$store.commit('addContact', {user: response.data})
-            this.$router.push('/contacts');
+            console.log('respose', response.data.user)
+            const user = response.data.user
+            this.$store.commit('addContact', { user })
+            this.$router.push('/contacts');    
           })
           .catch((error) => {
-            alert(error.response.data)
+            console.log(error)
           });
       },
       onReset(event) {
