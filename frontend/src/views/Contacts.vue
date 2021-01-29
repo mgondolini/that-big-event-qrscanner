@@ -1,22 +1,32 @@
 <template>
   <div id="contacts"> 
-    <b-card title="Contacts" sub-title="Card subtitle">
-      <b-card-text>
-        Some quick example text to build on the <em>card title</em> and make up the bulk of the card's
-        content.
-      </b-card-text>
+    <b-card title="Contacts">
+      <div v-for="(contact, index) in contacts" v-bind:key="index">
+        <b-card>
+          <b-card-text>{{contact.firstName}} {{contact.lastName}}</b-card-text>
+          <b-card-text>{{contact.company}}</b-card-text>
+          <a :href="`mailto:${contact.email}`"> {{contact.email}} </a>
+          <b-button v-clipboard="contact.email" variant="light">
+            <b-icon icon="clipboard" font-scale="0.99"></b-icon>
+          </b-button>
+        </b-card>
+      </div>
 
-      <b-card-text>A second paragraph of text in the card.</b-card-text>
-
-      <a href="#" class="card-link">Card link</a>
-      <b-link href="#" class="card-link">Another link</b-link>
     </b-card>
   </div>
 </template>
 
 <script>
 export default {
-    
+  name: "contacts",
+  data(){
+    return{
+      contacts: this.$store.state.contacts
+    }
+  },
+  methods: {
+
+  }
 }
 </script>
 

@@ -1,11 +1,11 @@
 <template>
   <div id="code_scanner">
-    <b-card title="Card title" sub-title="Card subtitle">
+    <b-card title="Code scanner">
       <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-        <b-form-group id="input-group-code" label="Your email" label-for="input-code">
+        <b-form-group id="input-group-code" label-for="input-code">
           <b-form-input
               id="input-code"
-              v-model="form.email"
+              v-model="form.code"
               placeholder="Enter code"
               required
           ></b-form-input>
@@ -18,25 +18,43 @@
 
 <script>
 export default {
-  name: 'CodeScanner',
+  name: 'code_scanner',
   data() {
     return {
       form: {
-          email: '',
-          password: ''
+        code: '',
       },
+      show: true
+    }
+  },
+  computed: {
+    getEmail(){
+      return this.$store.state.email;
     }
   },
   methods: {
       onSubmit(event) {
-      event.preventDefault()
-      alert(JSON.stringify(this.form))
+        event.preventDefault()
+        // alert(JSON.stringify(this.form))
+        alert("1"+JSON.stringify(this.$store.state.contacts))
+        const body = {email: this.$store.state.email}
+        this.$store.state.axios.put(`user/addContact/${this.form.code}`, body )
+          .then((response) => {
+            console.log('respose', response.data)
+            const user = response.data.user
+            this.$store.commit('addContact', { user })
+            this.$router.push('/contacts').catch(e=>console.log(e));    
+          })
+          .catch((error) => {
+            alert(error.response.data)
+            console.log(error.response.data)
+          });
       },
       onReset(event) {
-      event.preventDefault()
-      // Reset our form values
-      this.form.email = ''
-      this.form.password = ''
+        event.preventDefault()
+        // Reset our form values
+        this.form.email = ''
+        this.form.password = ''
       }
   }
 }

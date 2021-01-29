@@ -95,7 +95,7 @@ exports.login = async (options) => {
     hashedPsw
   );
 
-  global.log('Valid psw? ', passwordIsValid);
+  console.log('Valid psw? ', passwordIsValid);
 
   if (!passwordIsValid) {
     status = 400;

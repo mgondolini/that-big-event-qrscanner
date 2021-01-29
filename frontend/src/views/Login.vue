@@ -1,6 +1,6 @@
 <template>
     <div id="login">
-        <b-card title="Login" sub-title="Card subtitle">
+        <b-card title="Login">
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">
                 <b-form-group id="input-group-email" label="Your email" label-for="input-email">
                     <b-form-input
@@ -29,26 +29,41 @@
 
 <script>
 export default {
-    name: 'Login',
+    name: 'login',
     data() {
       return {
         form: {
             email: '',
             password: ''
         },
-        show: true
+        show: true,
       }
     },
     methods: {
         onSubmit(event) {
-        event.preventDefault()
-        alert(JSON.stringify(this.form))
+            event.preventDefault()
+            alert(JSON.stringify(this.form))
+
+            this.$store.state.axios.post('/auth/login', this.form)
+                .then((response) => {
+                    // alert(response.data.token)
+                    const token = response.data.token
+                    const user = response.data.user
+                    alert(JSON.stringify(user.contacts))
+                    this.$store.commit('login', {token, user})
+                    this.$router.push('/code_scanner').catch(e=>console.log(e))
+                }).catch((error) => {
+                    alert(error.response.data)
+                    
+                    console.log(error.response.data)
+                    this.onReset(event);
+                });
         },
         onReset(event) {
-        event.preventDefault()
-        // Reset our form values
-        this.form.email = ''
-        this.form.password = ''
+            event.preventDefault()
+            // Reset our form values
+            this.form.email = ''
+            this.form.password = ''
         }
     }
 }
