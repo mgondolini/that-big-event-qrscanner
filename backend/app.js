@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const config = require('./config/config.json');
+const config = require('./config.json');
 
 const app = express();
 
@@ -21,7 +21,7 @@ global.log = function log (msg) {
 /**
  * Mongoose
  */
-mongoose.connect('mongodb+srv://BEadmin:BEadmin@cluster0.h1eqt.mongodb.net/big-event-demo?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(config.db.connection_string, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Get the default connection
 const db = mongoose.connection;
@@ -47,11 +47,11 @@ app.use('/', router);
 app.use((req, res, next) => {
   res.header(
     'Access-Control-Allow-Headers',
-    'x-access-token, Origin, Content-Type, Accept'
+    'token, Origin, Content-Type, Accept'
   );
   next();
 });
 
-app.listen(config.port, () => {
+app.listen(3000, () => {
   global.log('Node API server started on port 3000');
 });
