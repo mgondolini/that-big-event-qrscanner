@@ -3,6 +3,7 @@ import App from "./App.vue";
 import Vuex from 'vuex';
 import Axios from 'axios';
 import Clipboard from 'v-clipboard'
+import createPersistedState from 'vuex-persistedstate'
 import "./registerServiceWorker";
 import router from './router/router';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -18,7 +19,11 @@ Vue.use(Clipboard)
 
 Vue.config.productionTip = false;
 
+
 const store = new Vuex.Store({
+  plugins: [createPersistedState({
+    storage: window.localStorage,
+  })],
   state: {
     isAuthenticated: false,
     email: '',
@@ -38,6 +43,7 @@ const store = new Vuex.Store({
       state.email = signIn.user.email;
       state.contacts = signIn.user.contacts;
       state.axios = Axios.create({
+        baseURL: 'http://localhost:3000/',
         timeout: 10000,
         headers: { token: signIn.token },
       });
@@ -48,12 +54,13 @@ const store = new Vuex.Store({
       console.log("tk ---"+state.token)
     },
     logout(state) {
-      localStorage.toke = 'InvalidToken';
+      localStorage.token = 'InvalidToken';
       localStorage.user = '';
       state.isAuthenticated = false;
       state.email = '';
       state.contacts = [];
       state.axios = Axios.create({
+        baseURL: 'http://localhost:3000/',
         timeout: 10000,
         headers: { token: 'InvalidToken' },
       });
@@ -61,7 +68,7 @@ const store = new Vuex.Store({
   }
 })
 
-// localStorage.store = store;
+localStorage.store = store;
 
 router.beforeEach((to, from, next) => {
   const routes = ['/login','/code_scanner', '/contacts'];
