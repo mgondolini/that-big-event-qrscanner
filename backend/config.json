@@ -1,0 +1,7 @@
+{
+  "port":8081,
+  "secret":"NGXjERv1e8",
+  "db":{
+    "connection_string" : "mongodb+srv://BEadmin:BEadmin@cluster0.h1eqt.mongodb.net/big-event-demo?retryWrites=true&w=majority"
+  }
+}
