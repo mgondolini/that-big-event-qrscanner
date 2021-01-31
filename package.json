@@ -9,5 +9,8 @@
     "deploy": "npm run build && npm run start",
     "start_dev_b": "npm run install_backend && cd backend && npm run start",
     "start_dev_f": "npm run install_frontend && cd frontend && npm run serve"
+  },
+  "engines": {
+    "node": "14.15.4"
   }
 }
