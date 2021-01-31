@@ -64,13 +64,12 @@ exports.login = async (options) => {
   let status = 200;
   let data = {};
 
-  //TODO RESPONSE CON TOKEN
   const hashedPsw = await User.findOne(query)
     .exec()
     .then((user) => {
       if (user == null) {
         status = 400;
-        data = 'user_not_found';
+        data = 'User not found';
         global.log('User not found'); // DEBUG
       } else {
         status = 200;
@@ -88,25 +87,25 @@ exports.login = async (options) => {
   if (!data)
     return data;
 
-  global.log('Hash: ', hashedPsw);
+  if (hashedPsw !== undefined) {
+    const passwordIsValid = bcrypt.compareSync(
+      options.password,
+      hashedPsw
+    );
 
-  const passwordIsValid = bcrypt.compareSync(
-    options.password,
-    hashedPsw
-  );
+    console.log('Valid psw? ', passwordIsValid);
 
-  console.log('Valid psw? ', passwordIsValid);
+    if (!passwordIsValid) {
+      status = 400;
+      data = 'Wrong password';
+    }
 
-  if (!passwordIsValid) {
-    status = 400;
-    data = 'Wrong password';
+    const token = jwt.sign({ id: options.email }, secret, {
+      expiresIn: 86400 // 24 hours
+    });
+
+    data.token = token;
   }
-
-  const token = jwt.sign({ id: options.email }, secret, {
-    expiresIn: 86400 // 24 hours
-  });
-
-  data.token = token;
 
   return {
     status,
