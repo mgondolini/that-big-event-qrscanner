@@ -11,7 +11,7 @@
                 required
             ></b-form-input>
           </b-form-group>
-          <b-button type="submit" variant="primary">Save contact</b-button>
+          <b-button type="submit" variant="info">Save contact</b-button>
         </b-form>
       </b-card>
       <b-modal ref="scanner-modal" hide-footer title="Code scanner">
@@ -45,14 +45,10 @@ export default {
   methods: {
       onSubmit(event) {
         event.preventDefault()
-        console.log(JSON.stringify(this.form))
-        console.log("1"+JSON.stringify(this.$store.state.contacts))
         
         const body = {email: this.$store.state.email}
-        console.log(body)
         this.$store.state.axios.put(`user/addContact/${this.form.code}`, body )
           .then((response) => {
-            console.log('response', response.data)
             const user = response.data.user
             this.$store.commit('addContact', { user })
             this.goToContacts();

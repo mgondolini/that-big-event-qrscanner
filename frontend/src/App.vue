@@ -17,9 +17,6 @@ export default {
 </script>
 
 <style lang="sass">
-html
-  height: 100% !important
-
 #app 
   font-family: Avenir, Helvetica, Arial, sans-serif
   -webkit-font-smoothing: antialiased

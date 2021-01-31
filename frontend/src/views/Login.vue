@@ -22,7 +22,7 @@
                         required
                         ></b-form-input>
                     </b-form-group>
-                    <b-button type="submit" variant="primary">Sign In</b-button>
+                    <b-button type="submit" variant="info">Sign In</b-button>
                 </b-form>
             </b-card>
             <b-modal ref="login-modal" hide-footer title="Login error">
@@ -51,14 +51,11 @@ export default {
     methods: {
         onSubmit(event) {
             event.preventDefault()
-            alert(JSON.stringify(this.form))
 
             this.$store.state.axios.post('/auth/login', this.form)
                 .then((response) => {
-                    // alert(response.data.token)
                     const token = response.data.token
                     const user = response.data.user
-                    alert(JSON.stringify(user.contacts))
                     this.$store.commit('login', {token, user})
                     this.$router.push('/code_scanner').catch(e=>console.log(e))
                 }).catch((error) => {
