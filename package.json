@@ -1,32 +1,13 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "Backend for TBE",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
-    "deploy": "set NODE_ENV=production&& node app.js"
-  },
-  "keywords": [
-    "heroku"
-  ],
-  "author": "Monica Gondolini",
-  "license": "ISC",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongodb": "^3.6.3",
-    "mongoose": "^5.11.13"
-  },
-  "devDependencies": {
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "morgan": "^1.10.0",
-    "nodemon": "^2.0.7"
-  },
-  "engines": {
-    "node": "14.15.4"
+    "install_backend": "cd backend && npm install",
+    "install_frontend": "cd frontend && npm install",    
+    "install": "npm run install_backend && npm run install_frontend",
+    "build_frontend": "cd frontend && npm run build",
+    "build": "npm run install && npm run build_frontend",
+    "start": "cd backend && set NODE_ENV=production&& node app.js",
+    "deploy": "npm run build && npm run start",
+    "start_dev_b": "npm run install_backend && cd backend && npm run start",
+    "start_dev_f": "npm run install_frontend && cd frontend && npm run serve"
   }
 }
