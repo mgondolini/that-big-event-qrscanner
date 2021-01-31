@@ -1,14 +1,16 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for TBE",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
     "deploy": "set NODE_ENV=production&& node app.js"
   },
-  "keywords": [],
+  "keywords": [
+    "heroku"
+  ],
   "author": "Monica Gondolini",
   "license": "ISC",
   "dependencies": {
@@ -23,5 +25,8 @@
     "cors": "^2.8.5",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.7"
+  },
+  "engines": {
+    "node": "14.15.4"
   }
 }
