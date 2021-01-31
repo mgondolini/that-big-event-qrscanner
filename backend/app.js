@@ -54,7 +54,7 @@ app.use((req, res, next) => {
 });
 
 // Deploy
-const port = process.env.PORT || config.port || 3001;
+const port = process.env.PORT || config.port;
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(`${__dirname}/public/`));
