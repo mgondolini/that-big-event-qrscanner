@@ -52,6 +52,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// Deploy
+// eslint-disable-next-line no-process-env
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(`${__dirname}/public/`));
+  app.get(/.*/, (req, res) => res.sendFile(`${__dirname}/public/index.html`));
+}
+
 app.listen(3000, () => {
   global.log('Node API server started on port 3000');
 });

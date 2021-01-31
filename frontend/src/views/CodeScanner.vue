@@ -1,18 +1,27 @@
 <template>
   <div id="code_scanner">
-    <b-card title="Code scanner">
-      <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-        <b-form-group id="input-group-code" label-for="input-code">
-          <b-form-input
-              id="input-code"
-              v-model="form.code"
-              placeholder="Enter code"
-              required
-          ></b-form-input>
-        </b-form-group>
-        <b-button type="submit" variant="primary">Save contact</b-button>
-      </b-form>
-    </b-card>
+    <b-container>
+      <b-card title="Code scanner"  class="card-scanner mx-auto my-10">
+        <b-form @submit="onSubmit" @reset="onReset" v-if="show" class="mt-5">
+          <b-form-group id="input-group-code" label-for="input-code" class="mb-5">
+            <b-form-input
+                id="input-code"
+                v-model="form.code"
+                placeholder="Enter code"
+                required
+            ></b-form-input>
+          </b-form-group>
+          <b-button type="submit" variant="info">Save contact</b-button>
+        </b-form>
+      </b-card>
+      <b-modal ref="scanner-modal" hide-footer title="Code scanner">
+        <div class="d-block text-center">
+            <p>{{ error }}</p>
+        </div>
+        <b-button class="mt-3" variant="outline-primary" block @click="goToContacts()">Contacts</b-button>
+        <b-button class="mt-3" block @click="hideModal">Back</b-button>
+      </b-modal>
+    </b-container>
   </div>
 </template>
 
@@ -24,6 +33,7 @@ export default {
       form: {
         code: '',
       },
+      error:'',
       show: true
     }
   },
@@ -35,31 +45,40 @@ export default {
   methods: {
       onSubmit(event) {
         event.preventDefault()
-        // alert(JSON.stringify(this.form))
-        alert("1"+JSON.stringify(this.$store.state.contacts))
+        
         const body = {email: this.$store.state.email}
         this.$store.state.axios.put(`user/addContact/${this.form.code}`, body )
           .then((response) => {
-            console.log('respose', response.data)
             const user = response.data.user
             this.$store.commit('addContact', { user })
-            this.$router.push('/contacts').catch(e=>console.log(e));    
+            this.goToContacts();
           })
           .catch((error) => {
-            alert(error.response.data)
-            console.log(error.response.data)
+            this.error = error.response.data
+            this.showModal()
           });
       },
-      onReset(event) {
-        event.preventDefault()
+      onReset() {
         // Reset our form values
         this.form.email = ''
         this.form.password = ''
+      },
+      goToContacts(){
+        this.$router.push('/contacts').catch(e=>console.log(e));   
+      },
+      showModal() {
+        this.$refs['scanner-modal'].show()
+      },
+      hideModal() {
+        this.$refs['scanner-modal'].hide()
+        this.onReset();
       }
   }
 }
 </script>
 
 <style lang="sass">
+.card-scanner
+  border: 0px !important
 
 </style>
