@@ -17,7 +17,7 @@ exports.findUserByCode = async (code) => {
     .then((user) => {
       if (user == null) {
         status = 400;
-        data = 'User code not found';
+        data = 'Code not found';
         global.log('User code not found'); // DEBUG
       } else {
         status = 200;

@@ -27,24 +27,6 @@ router.post('/auth/login', async (req, res, next) => {
   }
 });
 
-// /**
-//  * Logs out current logged in user session
-//  */
-// router.get('/user/logout', async (req, res, next) => {
-//   const options = {
-//   };
-
-//   try {
-//     const result = await userService.logoutUser(options);
-//     res.status(200).send(result.data);
-//   } catch (err) {
-//     return res.status(500).send({
-//       status: 500,
-//       error: 'Server Error'
-//     });
-//   }
-// });
-
 /**
  * Add Contact to user contacts
  */
@@ -52,7 +34,7 @@ router.put('/user/addContact/:code', authService.verifyToken, async (req, res, n
   const code = {code: req.params.code};
   const email = {email: req.body.email};
   
-  global.log('add contact');
+  global.log('Add contact'); //DEBUG
   try {
     const result = await userService.addContact(code, email);
     res.status(result.status || 200).send(result.data);
