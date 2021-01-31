@@ -22,7 +22,7 @@ export default {
   name: "contacts",
   data(){
     return{
-      contacts: this.$store.state.contacts
+      contacts: this.$store.state.contacts,
     }
   }
 }

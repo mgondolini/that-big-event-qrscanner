@@ -25,6 +25,12 @@
                     <b-button type="submit" variant="primary">Sign In</b-button>
                 </b-form>
             </b-card>
+            <b-modal ref="login-modal" hide-footer title="Login error">
+                <div class="d-block text-center">
+                    <p>{{ error }}</p>
+                </div>
+                <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Ok</b-button>
+            </b-modal>
         </b-container>
     </div>
 </template>
@@ -38,6 +44,7 @@ export default {
             email: '',
             password: ''
         },
+        error:'',
         show: true,
       }
     },
@@ -55,18 +62,22 @@ export default {
                     this.$store.commit('login', {token, user})
                     this.$router.push('/code_scanner').catch(e=>console.log(e))
                 }).catch((error) => {
-                    alert(error.response.data)
-                    
-                    console.log(error.response.data)
-                    this.onReset(event);
+                    this.error = error.response.data
+                    this.showModal()
                 });
         },
-        onReset(event) {
-            event.preventDefault()
+        onReset() {
             // Reset our form values
             this.form.email = ''
             this.form.password = ''
-        }
+        },
+        showModal() {
+            this.$refs['login-modal'].show()
+        },
+        hideModal() {
+            this.$refs['login-modal'].hide()
+            this.onReset();
+        },
     }
 }
 </script>

@@ -14,6 +14,13 @@
           <b-button type="submit" variant="primary">Save contact</b-button>
         </b-form>
       </b-card>
+      <b-modal ref="scanner-modal" hide-footer title="Code scanner">
+        <div class="d-block text-center">
+            <p>{{ error }}</p>
+        </div>
+        <b-button class="mt-3" variant="outline-primary" block @click="goToContacts()">Contacts</b-button>
+        <b-button class="mt-3" block @click="hideModal">Back</b-button>
+      </b-modal>
     </b-container>
   </div>
 </template>
@@ -26,6 +33,7 @@ export default {
       form: {
         code: '',
       },
+      error:'',
       show: true
     }
   },
@@ -47,17 +55,27 @@ export default {
             console.log('response', response.data)
             const user = response.data.user
             this.$store.commit('addContact', { user })
-            this.$router.push('/contacts').catch(e=>console.log(e));    
+            this.goToContacts();
           })
           .catch((error) => {
-            alert(error.response.data)
+            this.error = error.response.data
+            this.showModal()
           });
       },
-      onReset(event) {
-        event.preventDefault()
+      onReset() {
         // Reset our form values
         this.form.email = ''
         this.form.password = ''
+      },
+      goToContacts(){
+        this.$router.push('/contacts').catch(e=>console.log(e));   
+      },
+      showModal() {
+        this.$refs['scanner-modal'].show()
+      },
+      hideModal() {
+        this.$refs['scanner-modal'].hide()
+        this.onReset();
       }
   }
 }
