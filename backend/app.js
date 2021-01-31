@@ -1,3 +1,4 @@
+/* eslint-disable no-process-env */
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -53,12 +54,13 @@ app.use((req, res, next) => {
 });
 
 // Deploy
-// eslint-disable-next-line no-process-env
+const port = process.env.PORT || config.port || 3001;
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(`${__dirname}/public/`));
-  app.get(/.*/, (req, res) => res.sendFile(`${__dirname}/public/index.html`));
+  // app.get(/.*/, (req, res) => res.sendFile(`${__dirname}/public/index.html`));
 }
 
-app.listen(3000, () => {
-  global.log('Node API server started on port 3000');
+app.listen(port, () => {
+  global.log(`Node API server started on port ${port}`);
 });
