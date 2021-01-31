@@ -18,7 +18,7 @@
             <!-- Using 'button-content' slot -->
             <template #button-content>
               <em>{{ getEmail }}</em>
-            </template>>
+            </template>
             <b-dropdown-item @click.prevent="signOut()">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>

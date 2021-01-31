@@ -1,18 +1,20 @@
 <template>
   <div id="code_scanner">
-    <b-card title="Code scanner">
-      <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-        <b-form-group id="input-group-code" label-for="input-code">
-          <b-form-input
-              id="input-code"
-              v-model="form.code"
-              placeholder="Enter code"
-              required
-          ></b-form-input>
-        </b-form-group>
-        <b-button type="submit" variant="primary">Save contact</b-button>
-      </b-form>
-    </b-card>
+    <b-container>
+      <b-card title="Code scanner"  class="card-scanner mx-auto my-10">
+        <b-form @submit="onSubmit" @reset="onReset" v-if="show" class="mt-5">
+          <b-form-group id="input-group-code" label-for="input-code" class="mb-5">
+            <b-form-input
+                id="input-code"
+                v-model="form.code"
+                placeholder="Enter code"
+                required
+            ></b-form-input>
+          </b-form-group>
+          <b-button type="submit" variant="primary">Save contact</b-button>
+        </b-form>
+      </b-card>
+    </b-container>
   </div>
 </template>
 
@@ -49,7 +51,6 @@ export default {
           })
           .catch((error) => {
             alert(error.response.data)
-            console.log(error.response.data)
           });
       },
       onReset(event) {
@@ -63,5 +64,7 @@ export default {
 </script>
 
 <style lang="sass">
+.card-scanner
+  border: 0px !important
 
 </style>

@@ -49,9 +49,7 @@ const store = new Vuex.Store({
       });
     },
     addContact(state, userUpdated) {
-      console.log('newstate user contacts', userUpdated.user.contacts);
       state.contacts = userUpdated.user.contacts;
-      console.log("tk ---"+state.token)
     },
     logout(state) {
       localStorage.token = 'InvalidToken';
@@ -68,16 +66,12 @@ const store = new Vuex.Store({
   }
 })
 
-localStorage.store = store;
 
 router.beforeEach((to, from, next) => {
   const routes = ['/login','/code_scanner', '/contacts'];
   const loggedRoute = ['/code_scanner', '/contacts'];
   const p = to.path;
-
-  console.log(store.state)
-  console.log(localStorage.token)
-
+  
   if (!routes.includes(p)) {
     next('/code_scanner');
   }else if (loggedRoute.includes(p) && !store.state.isAuthenticated) {
