@@ -1,11 +1,11 @@
-import Vue from "vue";
-import App from "./App.vue";
-import Vuex from 'vuex';
-import Axios from 'axios';
+import Vue from "vue"
+import App from "./App.vue"
+import Vuex from 'vuex'
+import Axios from 'axios'
 import Clipboard from 'v-clipboard'
 import createPersistedState from 'vuex-persistedstate'
-import "./registerServiceWorker";
-import router from './router/router';
+import router from './router/router'
+import config from "./config.json"
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
@@ -29,7 +29,7 @@ const store = new Vuex.Store({
     email: '',
     contacts: [],
     axios : Axios.create({
-      baseURL: 'http://localhost:3000/',
+      baseURL: config.server.baseURL,
       timeout: 10000,
       headers: { token: 'InvalidToken' },
     })
@@ -43,7 +43,7 @@ const store = new Vuex.Store({
       state.email = signIn.user.email;
       state.contacts = signIn.user.contacts;
       state.axios = Axios.create({
-        baseURL: 'http://localhost:3000/',
+        baseURL: config.server.baseURL,
         timeout: 10000,
         headers: { token: signIn.token },
       });
@@ -58,7 +58,7 @@ const store = new Vuex.Store({
       state.email = '';
       state.contacts = [];
       state.axios = Axios.create({
-        baseURL: 'http://localhost:3000/',
+        baseURL: config.server.baseURL,
         timeout: 10000,
         headers: { token: 'InvalidToken' },
       });
