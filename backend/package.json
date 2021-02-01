@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
-    "deploy": "set NODE_ENV=production&& node app.js"
+    "deploy": "set NODE_ENV=production && node app.js"
   },
   "keywords": [
     "heroku"
@@ -25,7 +25,10 @@
     "nodemon": "^2.0.7"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "morgan": "^1.10.0"
   },
   "engines": {
     "node": "14.15.4"
