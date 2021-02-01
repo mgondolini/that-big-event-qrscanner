@@ -5,7 +5,7 @@ import Axios from "axios";
 import Clipboard from "v-clipboard";
 import createPersistedState from "vuex-persistedstate";
 import router from "./router/router";
-import config from "./config.json";
+// import config from "./config.json";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
