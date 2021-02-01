@@ -1,7 +1,0 @@
-{
-    "root": "./backend/public",
-    "clean_urls": true,
-    "routes": {
-        "/**": "./backend/public/index.html"
-    }
-}
