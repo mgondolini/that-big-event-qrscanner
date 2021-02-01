@@ -33,11 +33,11 @@
       </b-modal>
       <b-modal ref="error-modal" hide-footer title="Error!">
         <div class="d-block text-center">
-          <p>{{ error + "Sign in to use this app" }}</p>
+          <p>{{ error + " Sign in to use this app" }}</p>
         </div>
         <b-button
           class="mt-3"
-          variant="outline-danger"
+          variant="outline-primary"
           block
           @click="goToLogin()"
           >Ok</b-button
@@ -78,6 +78,7 @@ export default {
         })
         .catch((error) => {
           this.error = error.response.data;
+          console.log(this.error);
           if (this.error === "Unauthorized!") {
             this.$refs["error-modal"].show();
           } else {
@@ -91,6 +92,7 @@ export default {
       this.form.password = "";
     },
     goToLogin() {
+      this.$store.commit("logout");
       this.$router.push("/login").catch((e) => console.log(e));
     },
     goToContacts() {
