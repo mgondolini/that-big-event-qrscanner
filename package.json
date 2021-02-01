@@ -1,11 +1,11 @@
 {
   "scripts": {
     "install_backend": "cd backend && npm install",
-    "install_frontend": "cd frontend && npm install",
+    "install_frontend": "cd frontend && npm install",    
     "install": "npm run install_backend && npm run install_frontend",
     "build_frontend": "cd frontend && npm run build",
     "build": "npm run install && npm run build_frontend",
-    "start": "cd backend && set NODE_ENV=production && node app.js",
+    "start": "cd backend && set NODE_ENV=production&& node app.js",
     "deploy": "npm run build && npm run start",
     "start_dev_b": "npm run install_backend && cd backend && npm run start",
     "start_dev_f": "npm run install_frontend && cd frontend && npm run serve"
