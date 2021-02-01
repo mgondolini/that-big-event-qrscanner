@@ -78,7 +78,7 @@ export default {
         })
         .catch((error) => {
           this.error = error.response.data;
-          if (this.error.response.data === "Unauthorized!") {
+          if (this.error === "Unauthorized!") {
             this.$refs["error-modal"].show();
           } else {
             this.showModal();
